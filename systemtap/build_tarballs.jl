@@ -16,9 +16,10 @@ make install
 
 """
 
-platforms = supported_platforms()platforms = expand_cxxstring_abis(platforms)
-
+platforms = supported_platforms()
+platforms = expand_cxxstring_abis(platforms)
 filter!(Sys.islinux, platforms)
+filter!(p -> libc(p) == "glibc", platforms)
 
 
 products = [

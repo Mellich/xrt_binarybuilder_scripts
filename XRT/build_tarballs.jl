@@ -1,4 +1,4 @@
-using BinaryBuilder
+using BinaryBuilder, Pkg
 
 name = "xrt"
 version = v"2.17"
@@ -41,11 +41,11 @@ dependencies = [
     BuildDependency("OpenCL_Headers_jll"),
     #Dependency("OpenCL_jll"),
     Dependency("protobuf_c_jll"),
-    Dependency("ELFIO_jll"),
-    Dependency("ocl_icd_jll"),
-    Dependency("rapidjson_jll"),
+    Dependency(PackageSpec(; url="https://github.com/Mellich/ELFIO_jll.jl.git", rev="main")),
+    Dependency(PackageSpec(; url="https://github.com/Mellich/ocl_icd_jll.jl.git", rev="main")),
+    Dependency(PackageSpec(; url="https://github.com/Mellich/rapidjson_jll.jl.git", rev="main")),
     Dependency("LibCURL_jll"),
-    Dependency("systemtap_jll"),
+    Dependency(PackageSpec(; url="https://github.com/Mellich/systemtap_jll.jl.git", rev="main")),
     Dependency("systemd_jll")
 ]
 

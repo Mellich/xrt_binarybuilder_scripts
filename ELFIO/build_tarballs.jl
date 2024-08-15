@@ -23,5 +23,4 @@ products = [
 
 dependencies = []
 
-#build_tarballs(ARGS, name, version, sources, script, platforms, products, dependencies; julia_compat="1.6")
 build_tarballs(ARGS, name, version, sources, script, platforms, products, dependencies; julia_compat="1.6")
