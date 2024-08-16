@@ -8,6 +8,10 @@ sources = [
 ]
 
 script = raw"""
+# Copy license
+mkdir -p ${WORKSPACE}/destdir/share/licenses/xrt
+cp ${WORKSPACE}/srcdir/XRT/LICENSE ${WORKSPACE}/destdir/share/licenses/xrt
+
 cd ${WORKSPACE}/srcdir/XRT
 # Apply patch with missing define
 git apply ../huge_shift.patch
@@ -24,11 +28,6 @@ cmake --install build
 cd ${WORKSPACE}/destdir/
 cp -r ./xrt/* ./
 rm -rf xrt
-
-# Copy license
-cd ${WORKSPACE}/destdir/
-mkdir -p share/licenses/xrt
-cp ../srcdir/XRT/LICENSE share/licenses/xrt
 """
 
 #platforms = supported_platforms()

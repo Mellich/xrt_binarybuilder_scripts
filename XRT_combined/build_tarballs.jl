@@ -14,6 +14,10 @@ sources = [
 script = raw"""
 apk add gettext ruby
 
+# Copy license
+mkdir -p ${WORKSPACE}/destdir/share/licenses/xrt
+cp ${WORKSPACE}/srcdir/XRT/LICENSE ${WORKSPACE}/destdir/share/licenses/xrt
+
 # Install RapidJSON headers
 cd ${WORKSPACE}/srcdir/rapidjson
 cmake -B build -DCMAKE_INSTALL_PREFIX=${prefix} -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TARGET_TOOLCHAIN} -DCMAKE_BUILD_TYPE=Release \
@@ -53,10 +57,6 @@ cd ${WORKSPACE}/destdir/
 cp -r ./xrt/* ./
 rm -rf xrt
 
-# Copy license
-cd ${WORKSPACE}/destdir/
-mkdir -p share/licenses/xrt
-cp ../srcdir/XRT/LICENSE share/licenses/xrt
 """
 
 #platforms = supported_platforms()
