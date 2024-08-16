@@ -1,23 +1,24 @@
 using BinaryBuilder
 
 name = "ocl_icd"
-version = v"2024.05.08"
+version = v"2.3.2"
 sources = [
-    GitSource("https://github.com/KhronosGroup/OpenCL-ICD-Loader.git", "861b68b290e76d08e7241608479c16431f529945")
+    GitSource("https://github.com/OCL-dev/ocl-icd.git", "fdde6677b21329432db8b481e2637cd10f7d3cb2")
 ]
 
 script = raw"""
-cd ${WORKSPACE}/srcdir/OpenCL-ICD-Loader
-cmake -B build -DCMAKE_INSTALL_PREFIX=${prefix} -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TARGET_TOOLCHAIN} -DCMAKE_BUILD_TYPE=Release 
-cmake --build build --parallel ${nproc}
-cmake --install build
+cd ${WORKSPACE}/srcdir/ocl-icd
+./bootstrap
+./configure --prefix=${prefix} --build=${MACHTYPE} --host=${target}
+make -j all
+make install
 """
 
 platforms = supported_platforms()
 
 products = [
     LibraryProduct(["libOpenCL", "OpenCL"], :libocl_icd),
-    ExecutableProduct("cllayerinfo", :cllayerinfo)
+    FileProduct("include/ocl_icd.h", :ocl_icd_h)
 ]
 
 

@@ -49,7 +49,9 @@ cmake --build build --parallel ${nproc}
 cmake --install build
 
 # Copy folder from xrt to folder to root dest folder
-cp -r ../../../destdir/xrt/* ../../../destdir/
+cd ${WORKSPACE}/destdir/
+cp -r ./xrt/* ./
+rm -rf xrt
 """
 
 #platforms = supported_platforms()
@@ -71,7 +73,7 @@ dependencies = [
     Dependency("Ncurses_jll"),
     Dependency("LibYAML_jll"),
     BuildDependency("OpenCL_Headers_jll"),
-    Dependency("OpenCL_jll"),
+    #Dependency("OpenCL_jll"),
     Dependency("protobuf_c_jll"),
     Dependency("Elfutils_jll"),
     Dependency("LibCURL_jll"),
