@@ -12,12 +12,23 @@ cd ${WORKSPACE}/srcdir/XRT
 # Apply patch with missing define
 git apply ../huge_shift.patch
 cd src
-cmake -B build -DCMAKE_INSTALL_PREFIX=${prefix} -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TARGET_TOOLCHAIN} -DCMAKE_BUILD_TYPE=Release
+cmake -S . -B build \
+    -DCMAKE_INSTALL_PREFIX=${prefix} \
+    -DXRT_INSTALL_PREFIX=${prefix} \
+    -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TARGET_TOOLCHAIN} \
+    -DCMAKE_BUILD_TYPE=Release
 cmake --build build --parallel ${nproc}
 cmake --install build
 
 # Copy folder from xrt to folder to root dest folder
-cp -r ../../../destdir/xrt/* ../../../destdir/
+cd ${WORKSPACE}/destdir/
+cp -r ./xrt/* ./
+rm -rf xrt
+
+# Copy license
+cd ${WORKSPACE}/destdir/
+mkdir -p share/licenses/xrt
+cp ../srcdir/XRT/LICENSE share/licenses/xrt
 """
 
 #platforms = supported_platforms()

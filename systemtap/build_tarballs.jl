@@ -10,7 +10,9 @@ script = raw"""
 apk add gettext
 
 cd ${WORKSPACE}/srcdir/systemtap
-./configure --prefix=${prefix} --build=${MACHTYPE} --host=${target}
+./configure --prefix=${prefix} \
+    --build=${MACHTYPE} \
+    --host=${target}
 make -j all
 make install
 

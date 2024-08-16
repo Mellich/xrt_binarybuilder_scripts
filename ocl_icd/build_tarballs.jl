@@ -7,14 +7,19 @@ sources = [
 ]
 
 script = raw"""
+apk add ruby
+
 cd ${WORKSPACE}/srcdir/ocl-icd
 ./bootstrap
-./configure --prefix=${prefix} --build=${MACHTYPE} --host=${target}
+./configure --prefix=${prefix} \
+    --build=${MACHTYPE} \
+    --host=${target}
 make -j all
 make install
 """
 
 platforms = supported_platforms()
+filter!(p -> libc(p) == "glibc", platforms)
 
 products = [
     LibraryProduct(["libOpenCL", "OpenCL"], :libocl_icd),

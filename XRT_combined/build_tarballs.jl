@@ -7,7 +7,7 @@ sources = [
     GitSource("https://github.com/cdkey/systemtap.git", "cbb34b7244ba60cb0904d61dc9167290855106aa"),
     GitSource("https://github.com/serge1/ELFIO.git", "8ae6cec5d60495822ecd57d736f66149da9b1830"),
     GitSource("https://github.com/OCL-dev/ocl-icd.git", "fdde6677b21329432db8b481e2637cd10f7d3cb2"),
-    GitSource("https://github.com/Tencent/rapidjson.git", "f54b0e47a08782a6131cc3d60f94d038fa6e0a51"),
+    GitSource("https://github.com/Tencent/rapidjson.git", "ab1842a2dae061284c0a62dca1cc6d5e7e37e346"),
     DirectorySource("$(pwd())/XRT_patches")
 ]
 
@@ -52,6 +52,11 @@ cmake --install build
 cd ${WORKSPACE}/destdir/
 cp -r ./xrt/* ./
 rm -rf xrt
+
+# Copy license
+cd ${WORKSPACE}/destdir/
+mkdir -p share/licenses/xrt
+cp ../srcdir/XRT/LICENSE share/licenses/xrt
 """
 
 #platforms = supported_platforms()
@@ -61,7 +66,6 @@ platforms = expand_cxxstring_abis(platforms)
 products = [
     LibraryProduct("libxrt_coreutil", :libxrt_coreutil),
     LibraryProduct("libxilinxopencl", :libxilinxopencl),
-    #ExecutableProduct("fooifier", :fooifier),
 ]
 
 
@@ -73,7 +77,6 @@ dependencies = [
     Dependency("Ncurses_jll"),
     Dependency("LibYAML_jll"),
     BuildDependency("OpenCL_Headers_jll"),
-    #Dependency("OpenCL_jll"),
     Dependency("protobuf_c_jll"),
     Dependency("Elfutils_jll"),
     Dependency("LibCURL_jll"),
