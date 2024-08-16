@@ -15,6 +15,9 @@ cp ${WORKSPACE}/srcdir/XRT/LICENSE ${WORKSPACE}/destdir/share/licenses/xrt
 cd ${WORKSPACE}/srcdir/XRT
 # Apply patch with missing define
 git apply ../huge_shift.patch
+
+# Attempt to replace ocl_icd with khronos implementation fails
+#git apply ../khronos_ocl_icd.patch
 cd src
 cmake -S . -B build \
     -DCMAKE_INSTALL_PREFIX=${prefix} \
@@ -30,14 +33,12 @@ cp -r ./xrt/* ./
 rm -rf xrt
 """
 
-#platforms = supported_platforms()
 platforms = [Platform("x86_64", "linux")]
 platforms = expand_cxxstring_abis(platforms)
 
 products = [
     LibraryProduct("libxrt_coreutil", :libxrt_coreutil),
     LibraryProduct("libxilinxopencl", :libxilinxopencl),
-    #ExecutableProduct("fooifier", :fooifier),
 ]
 
 
@@ -49,15 +50,14 @@ dependencies = [
     Dependency("Ncurses_jll"),
     Dependency("LibYAML_jll"),
     BuildDependency("OpenCL_Headers_jll"),
-    #Dependency("OpenCL_jll"),
     Dependency("protobuf_c_jll"),
-    Dependency(PackageSpec(; url="https://github.com/Mellich/ELFIO_jll.jl.git", rev="main")),
-    Dependency(PackageSpec(; url="https://github.com/Mellich/ocl_icd_jll.jl.git", rev="main")),
-    Dependency(PackageSpec(; url="https://github.com/Mellich/rapidjson_jll.jl.git", rev="main")),
+    Dependency("ELFIO_jll"),
+    #Dependency("OpenCL_jll"),
+    Dependency("ocl_icd_jll"),
+    Dependency("rapidjson_jll"),
     Dependency("LibCURL_jll"),
-    Dependency(PackageSpec(; url="https://github.com/Mellich/systemtap_jll.jl.git", rev="main")),
+    Dependency("systemtap_jll"),
     Dependency("systemd_jll")
 ]
 
-#build_tarballs(ARGS, name, version, sources, script, platforms, products, dependencies; julia_compat="1.6")
 build_tarballs(ARGS, name, version, sources, script, platforms, products, dependencies; julia_compat="1.6", preferred_gcc_version=v"9")
