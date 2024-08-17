@@ -16,6 +16,9 @@ cd ${WORKSPACE}/srcdir/XRT
 # Apply patch with missing define
 git apply ../huge_shift.patch
 
+# Statically link to boost
+export XRT_BOOST_INSTALL=${WORKSPACE}/destdir
+
 # Attempt to replace ocl_icd with khronos implementation fails
 #git apply ../khronos_ocl_icd.patch
 cd src
@@ -33,8 +36,9 @@ cp -r ./xrt/* ./
 rm -rf xrt
 """
 
-platforms = [Platform("x86_64", "linux")]
+platforms = supported_platforms()
 platforms = expand_cxxstring_abis(platforms)
+filter!(p -> arch(p) == "x86_64" && libc(p) == "glibc", platforms)
 
 products = [
     LibraryProduct("libxrt_coreutil", :libxrt_coreutil),
@@ -44,7 +48,7 @@ products = [
 
 dependencies = [
     Dependency("Libuuid_jll"),
-    Dependency("boost_jll"),
+    BuildDependency("boost_jll"),
     Dependency("OpenSSL_jll"),
     Dependency("libdrm_jll"),
     Dependency("Ncurses_jll"),
@@ -52,12 +56,12 @@ dependencies = [
     BuildDependency("OpenCL_Headers_jll"),
     Dependency("protobuf_c_jll"),
     Dependency("ELFIO_jll"),
-    #Dependency("OpenCL_jll"),
     Dependency("ocl_icd_jll"),
     Dependency("rapidjson_jll"),
     Dependency("LibCURL_jll"),
     Dependency("systemtap_jll"),
-    Dependency("systemd_jll")
+    Dependency("systemd_jll"),
+    Dependency("Libffi_jll")
 ]
 
 build_tarballs(ARGS, name, version, sources, script, platforms, products, dependencies; julia_compat="1.6", preferred_gcc_version=v"9")
