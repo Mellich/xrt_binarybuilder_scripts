@@ -1,0 +1,28 @@
+diff --git a/src/runtime_src/core/include/windows/types.h b/src/runtime_src/core/include/windows/types.h
+index 652372b3c..ed8ca5487 100644
+--- a/src/runtime_src/core/include/windows/types.h
++++ b/src/runtime_src/core/include/windows/types.h
+@@ -19,7 +19,7 @@
+ 
+ #include <stdint.h>
+ 
+-typedef int64_t ssize_t;
+-typedef int pid_t;
++// typedef int64_t ssize_t;
++// typedef int pid_t;
+ 
+ #endif
+ 
+diff --git a/src/runtime_src/tools/xclbinutil/CMakeLists.txt b/src/runtime_src/tools/xclbinutil/CMakeLists.txt
+index 4c8a89232..9b6fadeae 100644
+--- a/src/runtime_src/tools/xclbinutil/CMakeLists.txt
++++ b/src/runtime_src/tools/xclbinutil/CMakeLists.txt
+@@ -82,6 +82,8 @@ add_executable(${XCLBINUTIL_NAME} ${XCLBINUTIL_SRCS})
+ # Signing xclbin images currently is not support on windows
+ if(NOT WIN32)
+   target_link_libraries(${XCLBINUTIL_NAME} PRIVATE crypto)
++else()
++  target_link_libraries(${XCLBINUTIL_NAME} PRIVATE wsock32 ws2_32)
+ endif()
+ 
+ # Add compile definitions
